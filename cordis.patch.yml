@@ -1,0 +1,8 @@
+# dsh-workspace-proxy bundle patch.
+#
+# One Host row owns both halves of the feature: it installs the per-workspace routing
+# dispatcher and serves the small settings route the panel talks to. The Web panel is
+# contributed by the package's `dsh.client` section, so no second row is needed.
+- insert:
+    - id: proxy-settings
+      name: 'dsh-workspace-proxy'

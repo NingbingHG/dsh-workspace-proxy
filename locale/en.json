@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Workspace Proxy",
+    "description": "Adds a sidebar panel that binds outbound proxies to workspaces, so each project's Harness traffic leaves through the proxy assigned to it."
+  }
+}

@@ -1,0 +1,26 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Syntax check
+        run: |
+          node --check index.js
+          node --check client.js
+      - name: Manifest and locale JSON
+        run: |
+          node -e "JSON.parse(require('fs').readFileSync('package.json', 'utf8')); console.log('manifest ok')"
+          node -e "for (const f of ['locale/en.json', 'locale/zh.json']) JSON.parse(require('fs').readFileSync(f, 'utf8')); console.log('locales ok')"
+      - name: Bundle patch agrees with the manifest
+        run: |
+          node -e "const fs = require('fs'); const name = JSON.parse(fs.readFileSync('package.json', 'utf8')).name; const patch = fs.readFileSync('cordis.patch.yml', 'utf8'); if (!patch.includes(name)) throw new Error('patch does not insert ' + name); console.log('patch ok')"
